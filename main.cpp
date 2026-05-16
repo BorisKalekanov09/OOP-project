@@ -1,6 +1,21 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
+class TaskItem
+{
+private:
+    string name;
+public:
+    TaskItem(){
+        this->name="Unknown";
+    }
+    ~TaskItem();
+};
+
+
+
 int main() {
     std::string input;
 
