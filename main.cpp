@@ -7,16 +7,24 @@ class TaskItem
 {
 private:
     string name;
+
 public:
-    TaskItem(){
-        this->name="Unknown";
+    TaskItem()
+    {
+        this->name = "Unknown";
+    }
+    
+    virtual void display() = 0;
+    
+    string getName()
+    {
+        return this->name;
     }
     ~TaskItem();
 };
 
-
-
-int main() {
+int main()
+{
     std::string input;
 
     std::cout << "Enter something: ";
