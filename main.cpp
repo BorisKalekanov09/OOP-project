@@ -31,15 +31,36 @@ private:
     bool isCompleted;
 
 public:
-    Task(){
-        this->deadline="";
-        this->priority=0;
-        this->isCompleted=false;
+    Task()
+    {
+        this->deadline = "";
+        this->priority = 0;
+        this->isCompleted = false;
     }
-    Task(string d,int p,bool c){
-        this->deadline=d;
-        this->priority=p;
-        this->isCompleted=c;
+    void markAsCompleted()
+    {
+        this->isCompleted = true;
+    }
+    Task(string d, int p, bool c)
+    {
+        this->deadline = d;
+        this->priority = p;
+        this->isCompleted = c;
+    }
+
+    void display() override{
+cout<< "Task name: "<<getName()<<endl;
+cout<< "Deadline: "<< this->deadline<<endl;
+cout<< "Priority: "<<this->priority<<endl;
+if (this->isCompleted)
+{
+    cout<< "Task is completed"<<endl;
+
+}else{
+        cout<< "Task is not completed"<<endl;
+
+}
+
     }
     ~Task();
 };
