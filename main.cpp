@@ -13,14 +13,35 @@ public:
     {
         this->name = "Unknown";
     }
-    
+
     virtual void display() = 0;
-    
+
     string getName()
     {
         return this->name;
     }
     ~TaskItem();
+};
+
+class Task : TaskItem
+{
+private:
+    string deadline;
+    int priority;
+    bool isCompleted;
+
+public:
+    Task(){
+        this->deadline="";
+        this->priority=0;
+        this->isCompleted=false;
+    }
+    Task(string d,int p,bool c){
+        this->deadline=d;
+        this->priority=p;
+        this->isCompleted=c;
+    }
+    ~Task();
 };
 
 int main()
