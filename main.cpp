@@ -173,6 +173,43 @@ public:
             this->tasks[i].display();
         }
     }
+
+    void showUncompletedTasks()
+    {
+        if (this->tasks.empty())
+        {
+            cout << "No tasks in project '" << this->name << "'." << endl;
+            return;
+        }
+
+        for (int i = 0; i < (int)this->tasks.size(); i++)
+        {
+            if (tasks[i].getCompleted() == false)
+            {
+                cout << "--------------------" << endl;
+                this->tasks[i].display();
+            }
+            
+        }
+    }
+       void showCompletedTasks()
+    {
+        if (this->tasks.empty())
+        {
+            cout << "No tasks in project '" << this->name << "'." << endl;
+            return;
+        }
+
+        for (int i = 0; i < (int)this->tasks.size(); i++)
+        {
+            if (tasks[i].getCompleted() == true)
+            {
+                cout << "--------------------" << endl;
+                this->tasks[i].display();
+            }
+            
+        }
+    }
 };
 
 int main()
@@ -188,7 +225,10 @@ int main()
         cout << "3. Update task" << endl;
         cout << "4. Delete task" << endl;
         cout << "5. Mark task as completed" << endl;
-        cout << "6. Exit" << endl;
+        cout << "6. Filter Uncompleted Tasks" << endl;
+        cout << "7. Filter Completed Tasks" << endl;
+        cout << ". Exit" << endl;
+
         cout << "Choose an option: ";
         cin >> choice;
 
@@ -271,7 +311,19 @@ int main()
                 cout << "Task not found." << endl;
             }
         }
-    } while (choice != 6);
+        else if (choice == 6)
+        {
+            project.showUncompletedTasks();
+        }
+        else if (choice == 7)
+        {
+            project.showCompletedTasks();
+        }
+        else
+        {
+            return 0;
+        }
+    } while (1);
 
     return 0;
 }
