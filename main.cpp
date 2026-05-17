@@ -216,17 +216,21 @@ public:
             return;
         }
 
+        bool found = false;
         for (int i = 0; i < (int)this->tasks.size(); i++)
         {
             if (tasks[i].getCompleted() == false)
             {
                 cout << "--------------------" << endl;
                 this->tasks[i].display();
+                found = true;
             }
             
         }
+        if (!found)
+            cout << "No uncompleted tasks found." << endl;
     }
-       void showCompletedTasks()
+    void showCompletedTasks()
     {
         if (this->tasks.empty())
         {
@@ -234,15 +238,19 @@ public:
             return;
         }
 
+        bool found = false;
         for (int i = 0; i < (int)this->tasks.size(); i++)
         {
             if (tasks[i].getCompleted() == true)
             {
                 cout << "--------------------" << endl;
                 this->tasks[i].display();
+                found = true;
             }
             
         }
+        if (!found)
+            cout << "No completed tasks found." << endl;
     }
     void sortTasksByPriority(){
         if (this->tasks.empty())
@@ -269,9 +277,28 @@ public:
         
         
     }
+
+    void FindTaskByName(const string &n){
+    if (this->tasks.empty())
+    {
+        cout << "No tasks in project '" << this->name << "'." << endl;
+        return;
+    }
+    bool found = false;
+    for (int i = 0; i < (int)this->tasks.size(); i++)
+    {
+        if (this->tasks[i].getName()==n)
+        {
+            this->tasks[i].display();
+            found = true;
+        }
+    }
+    if (!found)
+        cout << "Task '" << n << "' not found." << endl;
+    }
 };
 
-string readDeadlineSimple(const string &prompt)
+string readDeadline(const string &prompt)
 {
     string s;
     while (true)
@@ -302,6 +329,8 @@ int main()
         cout << "6. Filter Uncompleted Tasks" << endl;
         cout << "7. Filter Completed Tasks" << endl;
         cout << "8. Sort tasks by priority" << endl;
+        cout << "9. Serch task by name" << endl;
+
         cout << ". Exit" << endl;
 
         cout << "Choose an option: ";
@@ -317,7 +346,7 @@ int main()
 
             cout << "Task name: ";
             getline(cin, name);
-            deadline = readDeadlineSimple("Deadline (YYYY-MM-DD format): ");
+            deadline = readDeadline("Deadline (YYYY-MM-DD format): ");
             cout << "Priority: ";
             cin >> priority;
             cin.ignore();
@@ -340,7 +369,7 @@ int main()
             getline(cin, taskName);
             cout << "New task name: ";
             getline(cin, newName);
-            newDeadline = readDeadlineSimple("New deadline (YYYY-MM-DD format): ");
+            newDeadline = readDeadline("New deadline (YYYY-MM-DD format): ");
             cout << "New priority: ";
             cin >> newPriority;
             cin.ignore();
@@ -395,6 +424,13 @@ int main()
          else if (choice == 8)
         {
             project.sortTasksByPriority();
+        }
+        else if (choice == 9)
+        {
+            string n;
+            cout << "Enter task name to search: ";
+            getline(cin, n);
+            project.FindTaskByName(n);
         }
         else
         {
