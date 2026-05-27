@@ -449,7 +449,8 @@ int main()
         cout << "3. Delete a project" << endl;
         cout << "4. Select a project" << endl;
         cout << "5. View tasks in a specific project" << endl;
-        cout << "6. Exit" << endl;
+        cout << "6. Filter/Show tasks (Completed/Uncompleted)" << endl;
+        cout << "7. Exit" << endl;
         cout << "Choose an option: ";
         cin >> mainChoice;
         cin.ignore();
@@ -652,6 +653,10 @@ int main()
             manager.showTasksInProject(projName);
         }
         else if (mainChoice == 6)
+        {
+            manager.filterTasks();
+        }
+        else if (mainChoice == 7)
         {
             return 0;
         }
