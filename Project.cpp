@@ -1,5 +1,6 @@
 #include "Project.h"
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 Project::Project(string name)
@@ -34,7 +35,7 @@ bool Project::updateTask(string taskName, string newName, string newDeadline, in
     int index = findTaskIndex(taskName);
     if (index == -1)
     {
-        return false;
+        throw std::out_of_range("Task '" + taskName + "' not found in project '" + this->name + "'.");
     }
 
     this->tasks[index].setName(newName);
@@ -48,7 +49,7 @@ bool Project::deleteTask(string taskName)
     int index = findTaskIndex(taskName);
     if (index == -1)
     {
-        return false;
+        throw std::out_of_range("Task '" + taskName + "' not found in project '" + this->name + "'.");
     }
 
     this->tasks.erase(this->tasks.begin() + index);
@@ -70,7 +71,7 @@ bool Project::markTaskAsCompleted(string taskName)
     int index = findTaskIndex(taskName);
     if (index == -1)
     {
-        return false;
+        throw std::out_of_range("Task '" + taskName + "' not found in project '" + this->name + "'.");
     }
 
     this->tasks[index].markAsCompleted();

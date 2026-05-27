@@ -155,13 +155,14 @@ int main()
                     cin >> newPriority;
                     cin.ignore();
 
-                    if (project.updateTask(taskName, newName, newDeadline, newPriority))
+                    try
                     {
+                        project.updateTask(taskName, newName, newDeadline, newPriority);
                         cout << "Task updated." << endl;
                     }
-                    else
+                    catch (const std::exception &e)
                     {
-                        cout << "Task not found." << endl;
+                        cout << e.what() << endl;
                     }
                 }
                 else if (choice == 4)
@@ -170,13 +171,14 @@ int main()
                     cout << "Task name to delete: ";
                     getline(cin, taskName);
 
-                    if (project.deleteTask(taskName))
+                    try
                     {
+                        project.deleteTask(taskName);
                         cout << "Task deleted." << endl;
                     }
-                    else
+                    catch (const std::exception &e)
                     {
-                        cout << "Task not found." << endl;
+                        cout << e.what() << endl;
                     }
                 }
                 else if (choice == 5)
@@ -185,13 +187,14 @@ int main()
                     cout << "Task name to mark as completed: ";
                     getline(cin, taskName);
 
-                    if (project.markTaskAsCompleted(taskName))
+                    try
                     {
+                        project.markTaskAsCompleted(taskName);
                         cout << "Task marked as completed." << endl;
                     }
-                    else
+                    catch (const std::exception &e)
                     {
-                        cout << "Task not found." << endl;
+                        cout << e.what() << endl;
                     }
                 }
                 else if (choice == 6)
