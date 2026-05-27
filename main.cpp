@@ -136,6 +136,11 @@ public:
         this->name = name;
     }
 
+    string getName() const
+    {
+        return this->name;
+    }
+
     void addTask(Task task)
     {
         this->tasks.push_back(task);
@@ -315,128 +320,221 @@ string readDeadline(const string &prompt)
 
 int main()
 {
-    Project project("Default Project");
+    vector<Project> projects;
+    projects.push_back(Project("Default Project"));
 
-    int choice = 0;
+    int mainChoice = 0;
     do
     {
         cout << endl;
-        cout << "1. Add task" << endl;
-        cout << "2. Show all tasks" << endl;
-        cout << "3. Update task" << endl;
-        cout << "4. Delete task" << endl;
-        cout << "5. Mark task as completed" << endl;
-        cout << "6. Filter Uncompleted Tasks" << endl;
-        cout << "7. Filter Completed Tasks" << endl;
-        cout << "8. Sort tasks by priority" << endl;
-        cout << "9. Serch task by name" << endl;
-
-        cout << ". Exit" << endl;
-
+        cout << "=== Project Management ===" << endl;
+        cout << "1. List all projects" << endl;
+        cout << "2. Create a new project" << endl;
+        cout << "3. Delete a project" << endl;
+        cout << "4. Select a project" << endl;
+        cout << "5. Exit" << endl;
         cout << "Choose an option: ";
-        cin >> choice;
-
+        cin >> mainChoice;
         cin.ignore();
 
-        if (choice == 1)
+        if (mainChoice == 1)
         {
-            string name;
-            string deadline;
-            int priority;
-
-            cout << "Task name: ";
-            getline(cin, name);
-            deadline = readDeadline("Deadline (YYYY-MM-DD format): ");
-            cout << "Priority: ";
-            cin >> priority;
-            cin.ignore();
-
-            project.addTask(Task(name, deadline, priority, false));
-            cout << "Task added." << endl;
-        }
-        else if (choice == 2)
-        {
-            project.showTasks();
-        }
-        else if (choice == 3)
-        {
-            string taskName;
-            string newName;
-            string newDeadline;
-            int newPriority;
-
-            cout << "Current task name: ";
-            getline(cin, taskName);
-            cout << "New task name: ";
-            getline(cin, newName);
-            newDeadline = readDeadline("New deadline (YYYY-MM-DD format): ");
-            cout << "New priority: ";
-            cin >> newPriority;
-            cin.ignore();
-
-            if (project.updateTask(taskName, newName, newDeadline, newPriority))
+            if (projects.empty())
             {
-                cout << "Task updated." << endl;
+                cout << "No projects available." << endl;
             }
             else
             {
-                cout << "Task not found." << endl;
+                cout << "Projects list:" << endl;
+                for (int i = 0; i < (int)projects.size(); i++)
+                {
+                    cout << "- " << projects[i].getName() << endl;
+                }
             }
         }
-        else if (choice == 4)
+        else if (mainChoice == 2)
         {
-            string taskName;
-            cout << "Task name to delete: ";
-            getline(cin, taskName);
-
-            if (project.deleteTask(taskName))
+            string projName;
+            cout << "Enter new project name: ";
+            getline(cin, projName);
+            projects.push_back(Project(projName));
+            cout << "Project '" << projName << "' created successfully." << endl;
+        }
+        else if (mainChoice == 3)
+        {
+            string projName;
+            cout << "Enter project name to delete: ";
+            getline(cin, projName);
+            int index = -1;
+            for (int i = 0; i < (int)projects.size(); i++)
             {
-                cout << "Task deleted." << endl;
+                if (projects[i].getName() == projName)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1)
+            {
+                projects.erase(projects.begin() + index);
+                cout << "Project '" << projName << "' deleted successfully." << endl;
             }
             else
             {
-                cout << "Task not found." << endl;
+                cout << "Project not found." << endl;
             }
         }
-        else if (choice == 5)
+        else if (mainChoice == 4)
         {
-            string taskName;
-            cout << "Task name to mark as completed: ";
-            getline(cin, taskName);
+            string projName;
+            cout << "Enter project name to select: ";
+            getline(cin, projName);
+            int index = -1;
+            for (int i = 0; i < (int)projects.size(); i++)
+            {
+                if (projects[i].getName() == projName)
+                {
+                    index = i;
+                    break;
+                }
+            }
 
-            if (project.markTaskAsCompleted(taskName))
+            if (index == -1)
             {
-                cout << "Task marked as completed." << endl;
+                cout << "Project not found." << endl;
+                continue;
             }
-            else
+
+            Project &project = projects[index];
+            int choice = 0;
+            do
             {
-                cout << "Task not found." << endl;
-            }
+                cout << endl;
+                cout << "=== Project: " << project.getName() << " ===" << endl;
+                cout << "1. Add task" << endl;
+                cout << "2. Show all tasks" << endl;
+                cout << "3. Update task" << endl;
+                cout << "4. Delete task" << endl;
+                cout << "5. Mark task as completed" << endl;
+                cout << "6. Filter Uncompleted Tasks" << endl;
+                cout << "7. Filter Completed Tasks" << endl;
+                cout << "8. Sort tasks by priority" << endl;
+                cout << "9. Search task by name" << endl;
+                cout << "10. Back to Project Management" << endl;
+
+                cout << "Choose an option: ";
+                cin >> choice;
+                cin.ignore();
+
+                if (choice == 1)
+                {
+                    string name;
+                    string deadline;
+                    int priority;
+
+                    cout << "Task name: ";
+                    getline(cin, name);
+                    deadline = readDeadline("Deadline (YYYY-MM-DD format): ");
+                    cout << "Priority: ";
+                    cin >> priority;
+                    cin.ignore();
+
+                    project.addTask(Task(name, deadline, priority, false));
+                    cout << "Task added." << endl;
+                }
+                else if (choice == 2)
+                {
+                    project.showTasks();
+                }
+                else if (choice == 3)
+                {
+                    string taskName;
+                    string newName;
+                    string newDeadline;
+                    int newPriority;
+
+                    cout << "Current task name: ";
+                    getline(cin, taskName);
+                    cout << "New task name: ";
+                    getline(cin, newName);
+                    newDeadline = readDeadline("New deadline (YYYY-MM-DD format): ");
+                    cout << "New priority: ";
+                    cin >> newPriority;
+                    cin.ignore();
+
+                    if (project.updateTask(taskName, newName, newDeadline, newPriority))
+                    {
+                        cout << "Task updated." << endl;
+                    }
+                    else
+                    {
+                        cout << "Task not found." << endl;
+                    }
+                }
+                else if (choice == 4)
+                {
+                    string taskName;
+                    cout << "Task name to delete: ";
+                    getline(cin, taskName);
+
+                    if (project.deleteTask(taskName))
+                    {
+                        cout << "Task deleted." << endl;
+                    }
+                    else
+                    {
+                        cout << "Task not found." << endl;
+                    }
+                }
+                else if (choice == 5)
+                {
+                    string taskName;
+                    cout << "Task name to mark as completed: ";
+                    getline(cin, taskName);
+
+                    if (project.markTaskAsCompleted(taskName))
+                    {
+                        cout << "Task marked as completed." << endl;
+                    }
+                    else
+                    {
+                        cout << "Task not found." << endl;
+                    }
+                }
+                else if (choice == 6)
+                {
+                    project.showUncompletedTasks();
+                }
+                else if (choice == 7)
+                {
+                    project.showCompletedTasks();
+                }
+                else if (choice == 8)
+                {
+                    project.sortTasksByPriority();
+                }
+                else if (choice == 9)
+                {
+                    string n;
+                    cout << "Enter task name to search: ";
+                    getline(cin, n);
+                    project.FindTaskByName(n);
+                }
+                else
+                {
+                    break;
+                }
+            } while (true);
         }
-        else if (choice == 6)
-        {
-            project.showUncompletedTasks();
-        }
-        else if (choice == 7)
-        {
-            project.showCompletedTasks();
-        }
-         else if (choice == 8)
-        {
-            project.sortTasksByPriority();
-        }
-        else if (choice == 9)
-        {
-            string n;
-            cout << "Enter task name to search: ";
-            getline(cin, n);
-            project.FindTaskByName(n);
-        }
-        else
+        else if (mainChoice == 5)
         {
             return 0;
         }
-    } while (1);
+        else
+        {
+            cout << "Invalid option. Please try again." << endl;
+        }
+    } while (true);
 
     return 0;
 }
