@@ -359,6 +359,19 @@ public:
         }
     }
 
+    void showTasksInProject(string projectName)
+    {
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            if (projects[i].getName() == projectName)
+            {
+                projects[i].showTasks();
+                return;
+            }
+        }
+        cout << "Project not found." << endl;
+    }
+
     void filterTasks()
     {
         cout << "1. Filter Uncompleted Tasks" << endl;
@@ -435,7 +448,8 @@ int main()
         cout << "2. Create a new project" << endl;
         cout << "3. Delete a project" << endl;
         cout << "4. Select a project" << endl;
-        cout << "5. Exit" << endl;
+        cout << "5. View tasks in a specific project" << endl;
+        cout << "6. Exit" << endl;
         cout << "Choose an option: ";
         cin >> mainChoice;
         cin.ignore();
@@ -631,6 +645,13 @@ int main()
             } while (true);
         }
         else if (mainChoice == 5)
+        {
+            string projName;
+            cout << "Enter project name to view tasks: ";
+            getline(cin, projName);
+            manager.showTasksInProject(projName);
+        }
+        else if (mainChoice == 6)
         {
             return 0;
         }
