@@ -413,6 +413,31 @@ public:
         }
     }
 
+    void showStatistics()
+    {
+        int completedCount = 0;
+        int uncompletedCount = 0;
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            vector<Task> tasks = projects[i].getTasks();
+            for (int j = 0; j < (int)tasks.size(); j++)
+            {
+                if (tasks[j].getCompleted())
+                {
+                    completedCount++;
+                }
+                else
+                {
+                    uncompletedCount++;
+                }
+            }
+        }
+        cout << "=== Task Statistics ===" << endl;
+        cout << "Total completed tasks: " << completedCount << endl;
+        cout << "Total uncompleted tasks: " << uncompletedCount << endl;
+        cout << "Total tasks: " << (completedCount + uncompletedCount) << endl;
+    }
+
     vector<Project>& getProjects()
     {
         return projects;
@@ -450,7 +475,8 @@ int main()
         cout << "4. Select a project" << endl;
         cout << "5. View tasks in a specific project" << endl;
         cout << "6. Filter/Show tasks (Completed/Uncompleted)" << endl;
-        cout << "7. Exit" << endl;
+        cout << "7. Task Statistics (Completed/Uncompleted count)" << endl;
+        cout << "8. Exit" << endl;
         cout << "Choose an option: ";
         cin >> mainChoice;
         cin.ignore();
@@ -657,6 +683,10 @@ int main()
             manager.filterTasks();
         }
         else if (mainChoice == 7)
+        {
+            manager.showStatistics();
+        }
+        else if (mainChoice == 8)
         {
             return 0;
         }
