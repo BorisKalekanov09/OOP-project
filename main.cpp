@@ -289,27 +289,25 @@ public:
         }
         cout<<"Tasks sorted successfully!"<<endl;
         showTasks();
-        
-        
     }
 
     void FindTaskByName(const string &n){
-    if (this->tasks.empty())
-    {
-        cout << "No tasks in project '" << this->name << "'." << endl;
-        return;
-    }
-    bool found = false;
-    for (int i = 0; i < (int)this->tasks.size(); i++)
-    {
-        if (this->tasks[i].getName()==n)
+        if (this->tasks.empty())
         {
-            this->tasks[i].display();
-            found = true;
+            cout << "No tasks in project '" << this->name << "'." << endl;
+            return;
         }
-    }
-    if (!found)
-        cout << "Task '" << n << "' not found." << endl;
+        bool found = false;
+        for (int i = 0; i < (int)this->tasks.size(); i++)
+        {
+            if (this->tasks[i].getName()==n)
+            {
+                this->tasks[i].display();
+                found = true;
+            }
+        }
+        if (!found)
+            cout << "Task '" << n << "' not found." << endl;
     }
 };
 
@@ -321,40 +319,90 @@ private:
 public:
     void addProject(string name)
     {
+        projects.push_back(Project(name));
     }
 
     void removeProject(string name)
     {
-        
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            if (projects[i].getName() == name)
+            {
+                projects.erase(projects.begin() + i);
+                return;
+            }
+        }
     }
 
     void addTaskToProject(string projectName, Task task)
     {
-        
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            if (projects[i].getName() == projectName)
+            {
+                projects[i].addTask(task);
+                return;
+            }
+        }
     }
 
     void showAllTasks()
     {
-       
+        if (projects.empty())
+        {
+            cout << "No projects available." << endl;
+            return;
+        }
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            projects[i].showTasks();
+        }
     }
 
     void filterTasks()
     {
+        cout << "1. Filter Uncompleted Tasks" << endl;
+        cout << "2. Filter Completed Tasks" << endl;
+        cout << "Choose an option: ";
+        int choice;
+        cin >> choice;
+        cin.ignore();
         
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            if (choice == 1)
+            {
+                projects[i].showUncompletedTasks();
+            }
+            else if (choice == 2)
+            {
+                projects[i].showCompletedTasks();
+            }
+        }
     }
 
     void sortTasks()
     {
-       
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            projects[i].sortTasksByPriority();
+        }
     }
 
     void searchTask()
     {
-       
+        string n;
+        cout << "Enter task name to search: ";
+        getline(cin, n);
+        for (int i = 0; i < (int)projects.size(); i++)
+        {
+            projects[i].FindTaskByName(n);
+        }
     }
 
     vector<Project>& getProjects()
     {
+        return projects;
     }
 };
 
