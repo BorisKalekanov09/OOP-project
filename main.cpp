@@ -185,6 +185,16 @@ public:
         return true;
     }
 
+    void removeTask(string taskName)
+    {
+        deleteTask(taskName);
+    }
+
+    vector<Task> getTasks() const
+    {
+        return this->tasks;
+    }
+
     bool markTaskAsCompleted(string taskName)
     {
         int index = findTaskIndex(taskName);
@@ -303,6 +313,51 @@ public:
     }
 };
 
+class TaskManager
+{
+private:
+    vector<Project> projects;
+
+public:
+    void addProject(string name)
+    {
+    }
+
+    void removeProject(string name)
+    {
+        
+    }
+
+    void addTaskToProject(string projectName, Task task)
+    {
+        
+    }
+
+    void showAllTasks()
+    {
+       
+    }
+
+    void filterTasks()
+    {
+        
+    }
+
+    void sortTasks()
+    {
+       
+    }
+
+    void searchTask()
+    {
+       
+    }
+
+    vector<Project>& getProjects()
+    {
+    }
+};
+
 string readDeadline(const string &prompt)
 {
     string s;
@@ -320,8 +375,8 @@ string readDeadline(const string &prompt)
 
 int main()
 {
-    vector<Project> projects;
-    projects.push_back(Project("Default Project"));
+    TaskManager manager;
+    manager.addProject("Default Project");
 
     int mainChoice = 0;
     do
@@ -339,16 +394,16 @@ int main()
 
         if (mainChoice == 1)
         {
-            if (projects.empty())
+            if (manager.getProjects().empty())
             {
                 cout << "No projects available." << endl;
             }
             else
             {
                 cout << "Projects list:" << endl;
-                for (int i = 0; i < (int)projects.size(); i++)
+                for (int i = 0; i < (int)manager.getProjects().size(); i++)
                 {
-                    cout << "- " << projects[i].getName() << endl;
+                    cout << "- " << manager.getProjects()[i].getName() << endl;
                 }
             }
         }
@@ -357,7 +412,7 @@ int main()
             string projName;
             cout << "Enter new project name: ";
             getline(cin, projName);
-            projects.push_back(Project(projName));
+            manager.addProject(projName);
             cout << "Project '" << projName << "' created successfully." << endl;
         }
         else if (mainChoice == 3)
@@ -365,18 +420,19 @@ int main()
             string projName;
             cout << "Enter project name to delete: ";
             getline(cin, projName);
-            int index = -1;
-            for (int i = 0; i < (int)projects.size(); i++)
+            
+            bool exists = false;
+            for (int i = 0; i < (int)manager.getProjects().size(); i++)
             {
-                if (projects[i].getName() == projName)
+                if (manager.getProjects()[i].getName() == projName)
                 {
-                    index = i;
+                    exists = true;
                     break;
                 }
             }
-            if (index != -1)
+            if (exists)
             {
-                projects.erase(projects.begin() + index);
+                manager.removeProject(projName);
                 cout << "Project '" << projName << "' deleted successfully." << endl;
             }
             else
@@ -390,9 +446,9 @@ int main()
             cout << "Enter project name to select: ";
             getline(cin, projName);
             int index = -1;
-            for (int i = 0; i < (int)projects.size(); i++)
+            for (int i = 0; i < (int)manager.getProjects().size(); i++)
             {
-                if (projects[i].getName() == projName)
+                if (manager.getProjects()[i].getName() == projName)
                 {
                     index = i;
                     break;
@@ -405,7 +461,7 @@ int main()
                 continue;
             }
 
-            Project &project = projects[index];
+            Project &project = manager.getProjects()[index];
             int choice = 0;
             do
             {
@@ -439,7 +495,7 @@ int main()
                     cin >> priority;
                     cin.ignore();
 
-                    project.addTask(Task(name, deadline, priority, false));
+                    manager.addTaskToProject(project.getName(), Task(name, deadline, priority, false));
                     cout << "Task added." << endl;
                 }
                 else if (choice == 2)
